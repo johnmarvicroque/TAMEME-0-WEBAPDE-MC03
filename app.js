@@ -20,14 +20,21 @@ mongoose.connect("mongodb://localhost:27017/Tameme-0", {
 app.set("view-engine", "hbs")
 app.use(express.static(__dirname + "/public"))
 
-app.use(require("./controller"))
+app.use(cookieparser())
 
-//app.use(session({
-//  secret : "secret",
-//  name : "secretname",
-//  resave: true,
-//  saveUninitialized :true
-//}))
+app.use(session({
+  secret : "secret",
+  name : "secretname",
+  resave: true,
+  saveUninitialized :true,
+    
+  cookie: {
+    maxAge: 21*24*60*60*1000 //3 weeks
+  }
+}))
+
+app.use(require("./controller/index"))
+app.use(require("./controller/user"))
 
 app.listen(process.env.PORT || port, () => {
     console.log("Listening in port " + port);

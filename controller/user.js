@@ -22,7 +22,7 @@ router.post("/login", (req,res) =>{
     console.log("POST /login")
 })
 
-router.post("/register", (req,res)=>{
+router.post("/register", urlencoder, (req,res)=>{
     console.log("POST /register")
     
     var user = {
