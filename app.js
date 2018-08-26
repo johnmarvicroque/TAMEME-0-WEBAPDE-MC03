@@ -33,8 +33,7 @@ app.use(session({
   }
 }))
 
-app.use(require("./controller/index"))
-app.use(require("./controller/user"))
+app.use(require("./controller"))
 
 app.listen(process.env.PORT || port, () => {
     console.log("Listening in port " + port);
