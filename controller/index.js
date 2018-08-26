@@ -42,11 +42,11 @@ router.get("/home", (req, res) => {
     res.render("home.hbs")
 })
 
-//router.get("/profile", (req, res) => {
-//    console.log("GET /profile")
-//    
-//    res.render
-//})
+router.get("/profile", (req, res) => {
+    console.log("GET /profile")
+    
+    res.render
+})
 
 router.get("/logout", (req, res) => {
     console.log("GET /logout")
