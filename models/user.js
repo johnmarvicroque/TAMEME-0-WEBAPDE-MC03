@@ -44,3 +44,36 @@ var UserSchema = mongoose.Schema({
 })
 
 var User = mongoose.model("user", UserSchema)
+
+exports.addUser = function(user){
+    return new Promise(function (resolve, reject){
+        var u = new User(user)
+        u.save().then((newUser) => {
+            resolve(newUser)
+        }, (error) => {
+            reject(error)
+        })
+    })
+}
+
+exports.getAllUsers = function(){
+    return new Promise (function(resolve, reject){
+        User.find().then((users) => {
+            resolve(users)
+        }, (error) => {
+            reject(error)
+        })
+    })
+}
+
+exports.getUserByUsername = function(uname){
+    return new Promise (function(resolve, reject){
+        User.findOne({
+            username: uname
+        }).then((user) => {
+            resolve(user)
+        }, (error) => {
+            reject(error)
+        })
+    })
+}
