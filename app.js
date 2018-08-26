@@ -13,14 +13,14 @@ const app = express();
 const port = 3000;
 
 mongoose.Promise = global.Promise
-mongoose.connect("mongodb://localhost:27017/memeify", {
+mongoose.connect("mongodb://localhost:27017/Tameme-0", {
     useNewUrlParser: true
 });
 
 app.set("view-engine", "hbs")
 app.use(express.static(__dirname + "/public"))
 
-app.use(require("./controllers"))
+app.use(require("./controller"))
 
 //app.use(session({
 //  secret : "secret",

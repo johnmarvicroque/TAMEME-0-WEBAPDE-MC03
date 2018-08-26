@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const {User} = require("post.js")
+//const {User} = require("post.js")
 
 var postSchema = mongoose.Schema({
     
@@ -31,3 +31,7 @@ var postSchema = mongoose.Schema({
 })
 
 var Post = mongoose.model("post", postSchema)
+
+module.exports = {
+    Post
+}

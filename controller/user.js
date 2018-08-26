@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const crypto = require("crypto")
-const User = require("../model/user")
+const User = require("../models/user")
 //const Post = require("../model/post") TO BE USED 
 const bodyparser = require("body-parser")
 
