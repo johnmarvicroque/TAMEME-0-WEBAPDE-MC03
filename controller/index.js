@@ -1,8 +1,7 @@
 const express = require("express")
 const path = require("path")
-const app = express()
 const router = express.Router()
-
+const app = express()
 //const Post = require("../models/post") FOR POSTS
 //const Tags = require("../models/tags") FOR TAGS
 const User = require("../models/user")
@@ -14,8 +13,6 @@ router.get("/", (req, res)=>{
     console.log("GET /")
 
     res.render("index.hbs")
-    
-    
 })
 
 module.exports = router
