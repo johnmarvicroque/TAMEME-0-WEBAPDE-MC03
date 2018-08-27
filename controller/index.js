@@ -2,16 +2,16 @@ const express = require("express")
 const path = require("path")
 const router = express.Router()
 const app = express()
-//const Post = require("../models/post") FOR POSTS
-//const Tags = require("../models/tags") FOR TAGS
+const Post = require("../models/post")
+const Tags = require("../models/tags")
 const User = require("../models/user")
 
 const cookieparser = require("cookie-parser")
 const bodyparser = require("body-parser")
 
 
-//router.use("/post", require("./post"))
-//router.use("/tags", require("./tags"))
+router.use("/post", require("./post"))
+router.use("/tags", require("./tags"))
 router.use("/user", require("./user"))
 
 
@@ -33,13 +33,13 @@ router.use("/", (req,res,next)=>{
 router.get("/", (req, res) => {
     console.log("GET /")
 
-    res.render("index.hbs")
+    res.render("index")
 })
 
 router.get("/home", (req, res) => {
     console.log("GET /home")
     
-    res.render("home.hbs")
+    res.render("home")
 })
 
 router.get("/profile", (req, res) => {
