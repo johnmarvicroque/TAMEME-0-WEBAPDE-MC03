@@ -10,7 +10,7 @@ const session = require("express-session");
 const app = express()
 
 const urlencoder = bodyparser.urlencoded({
-  extended : true
+  extended : false
 })
 
 router.use(urlencoder)
@@ -27,7 +27,7 @@ router.use(session({
 }));
 
 
-router.post("/login", urlencoder, (req,res)=>{
+router.post("/login", (req,res)=>{
     console.log("POST /home")
     
     let userLogIn = {
@@ -35,27 +35,68 @@ router.post("/login", urlencoder, (req,res)=>{
         password: req.body.loginPassword
     }
     
-    User.authenticate(userLogIn).then((user)=>{
-        if(user.password == userLogIn.password){
-            request.session.username = username
+       
+    
+    User.authenticate(userLogIn).then((newUser) =>{
+        console.log("USER FOUND")
+        console.log(newUser)
+        
+                
+        if(newUser){
+           req.session.username = newUser.username
+            
             res.render("home.hbs", {
-                profileName: user.username
-                //TODO: filtered posts
+                profileName: newUser.username
             })
-        }
-    }, (err)=>{
-        console.log("Error: /login")
+//           Post.getAll().then((posts)=>{
+//             res.render("userhome.hbs", {
+//                 posts
+//             })
+//          })
+        }else{
+            res.render("home.hbs", {  
+                error: "Wrong credentials. Try again."
+            })
+        }         
+    }, (error) =>{
+        console.log("ERROR")
+        res.render("index.hbs")
     })
+    
+    
+    
+//    User.authenticate(userLogIn).then((user)=>{
+//        
+//        console.log(user.username)
+//        console.log(user.password)
+//        console.log(user.description)
+//        
+//        if(user.password == userLogIn.password){
+//            req.session.username = userLogin.username
+//            res.render("home.hbs", {
+//                profileName: user.username
+//                //TODO: filtered posts
+//            })
+//        }
+//    }, (err)=>{
+//        console.log("Error: /login")
+//    }, (error)=>{
+//        console.log("ERROR")
+//        res.render("home.hbs")
+//    })
+//    
+    
+    
 })
 
 
-router.post("/register", (req, res)=>{
+router.post("/register",(req, res)=>{
     console.log("POST /register")
     
     var username = req.body.signupUsername
     var password = req.body.signupPassword
     var description = req.body.signupDescription
-    var cryptedPassword = crypto.createHash("md5").update(password).digest("hex")
+
     if(password < 6){
         res.render("index.hbs", {
             errorSignup: "Password must be at least 6 characters",
@@ -72,15 +113,15 @@ router.post("/register", (req, res)=>{
                 })
             }
             else{
-                var u = new User({
+                var u = {
                     username, 
-                    password: cryptedPassword, description
-                })
+                    password,
+                    description
+                    
+                }
                 User.createUser(u).then((newUser)=>{
-                    res.render("index.hbs", {
-                        goodSignup: "Sign up successful!",
-                        openloginModal: "Good request"
-                    })
+                    console.log("QWEWEWEQEWQE")
+                    res.render("index.hbs")
                 }, (error)=>{
                     res.send("Something went wrong!")
                 })
@@ -92,10 +133,18 @@ router.post("/register", (req, res)=>{
 })
 
 
-app.get("/logout", (req, res)=>{
-    console.log("Get /logout")
+router.get("/logout", (req, res) => {
+    console.log("GET /logout")
     
-    res.redirect("/")
+    console.log(req.session.username + 's session is destroyed')
+    
+    req.session.destroy((err) => {
+        if(err){
+            console.log(err)
+        }
+    })
+    
+    res.render("index.hbs")
 })
 
 module.exports = router

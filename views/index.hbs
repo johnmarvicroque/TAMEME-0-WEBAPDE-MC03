@@ -1,10 +1,10 @@
 <html>
 
 <head>
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="./../js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
     <script src="../js/bootstrap.min.js"></script>
-    <link rel = "stylesheet" href="../css/style.css">
+    <link rel = "stylesheet" href="./../css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 
@@ -26,33 +26,11 @@
     {{/if}}
     
     
-    <!--NAV BAR-->
-<!--
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-            <a class="navbar-brand" href="#">TAMEME-0</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <!--------NAV BAR-------->
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="form-inline my-2 my-lg-0 ml-auto">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                <ul class="navbar-nav ml-auto" style ="cursor : pointer">
-                    <li class="nav-item">
-                        <a class="text-light nav-link" data-toggle="modal" data-target="#login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-light nav-link " data-toggle="modal" data-target="#signup">Sign up</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
--->
     
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="home.hbs">TAMEME-0</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <a class="navbar-brand" href="/">TAMEME-0</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -77,11 +55,6 @@
                         <a class="text-dark nav-link signup" data-toggle="modal" data-target="#signup"> <i class="fa fa-user-plus"></i>Sign up</a>
                     </ul>
                 </li>
-                <!--
-<li class="nav-item">
-<a class="text-light nav-link" id="logoutButton">Log out</a>
-</li>
--->
             </ul>
         </div>
     </nav>
@@ -160,7 +133,7 @@
                     {{goodSignup}}
                 </div>
                 <div class="modal-body">
-                    <form action = "user/login" method = "post">
+                    <form action = "../user/login" method = "post">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Username:</label>
                             <input input type="text" class="form-control" id="usernameLoginForm" name = "loginUsername" required>
@@ -192,7 +165,7 @@
                     {{errorSignup}}
                 </div>
                 <div class="modal-body">
-                    <form action = "user/register" method = "post">
+                    <form action = "../user/register" method = "post">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Username:</label>
                             <input type="text" class="form-control" id="usernameSignupForm" name = "signupUsername" required>

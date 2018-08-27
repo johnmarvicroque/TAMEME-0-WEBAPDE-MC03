@@ -3,7 +3,7 @@ const path = require("path")
 const router = express.Router()
 const app = express()
 const Post = require("../models/post")
-const Tags = require("../models/tags")
+//const Tags = require("../models/tags")
 const User = require("../models/user")
 
 const cookieparser = require("cookie-parser")
@@ -11,7 +11,7 @@ const bodyparser = require("body-parser")
 
 
 router.use("/post", require("./post"))
-router.use("/tags", require("./tags"))
+//router.use("/tags", require("./tags"))
 router.use("/user", require("./user"))
 
 
@@ -33,33 +33,13 @@ router.use("/", (req,res,next)=>{
 router.get("/", (req, res) => {
     console.log("GET /")
 
-    res.render("index")
-})
-
-router.get("/home", (req, res) => {
-    console.log("GET /home")
-    
-    res.render("home")
+    res.render("index.hbs")
 })
 
 router.get("/profile", (req, res) => {
     console.log("GET /profile")
     
     res.render
-})
-
-router.get("/logout", (req, res) => {
-    console.log("GET /logout")
-    
-    console.log(req.session.username + 's session is destroyed')
-    
-    req.session.destroy((err) => {
-        if(err){
-            console.log(err)
-        }
-    })
-    
-//    res.render
 })
 
 module.exports = router

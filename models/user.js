@@ -76,7 +76,7 @@ module.exports.createUser = function(user){
     })
 }
 
-module.exports.checkHitUsername = function(uname){
+exports.checkHitUsername = function(uname){
   return new Promise(function(resolve, reject){
     
       User.findOne({username: uname}).then((user)=>{
@@ -87,18 +87,22 @@ module.exports.checkHitUsername = function(uname){
   })
 }
 
-module.exports.authenticate = function(user){
-  return new Promise(function(resolve, reject){
-      
-    User.findOne({
-      username : user.username,
-      password : crypto.createHash("md5").update(user.password).digest("hex")
-    }).then((user)=>{
-      resolve(user)
-    },(err)=>{
-      reject(err)
+exports.authenticate = function(user){
+    console.log("asdasdasdasdasd")
+    console.log(user)
+    
+    
+    return new Promise(function(resolve, reject){
+        User.findOne({
+            username : user.username,
+            password : crypto.createHash("md5").update(user.password).digest("hex")
+            
+        }).then((user)=>{
+            resolve(user)
+        },(err)=>{
+            reject(err)
+        })
     })
-  })
 }
 
 module.exports.editUser = function(id, updatedUser){

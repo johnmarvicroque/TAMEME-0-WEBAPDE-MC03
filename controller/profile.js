@@ -4,6 +4,7 @@ const app = express()
 //const Post = require("../models/post")
 //const Tags = require("../models/tags")
 const User = require("../models/user")
+const cookieparser = require("cookie-parser")
 
 //router.use("/post", require("./post"))
 router.use("/user", require("./user"))
