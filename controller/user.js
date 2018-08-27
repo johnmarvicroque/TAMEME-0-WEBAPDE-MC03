@@ -120,8 +120,7 @@ router.post("/register",(req, res)=>{
                     
                 }
                 User.createUser(u).then((newUser)=>{
-                    console.log("QWEWEWEQEWQE")
-                    res.render("index.hbs")
+                    res.redirect("../")
                 }, (error)=>{
                     res.send("Something went wrong!")
                 })
