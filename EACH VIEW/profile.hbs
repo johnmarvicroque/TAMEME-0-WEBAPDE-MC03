@@ -43,7 +43,20 @@
                     readURL(this);
                 }); 	
             });
-            
+            $(document).ready(function () {
+                var ckbox = $('#isPrivateChecked');
+                
+                $('#isPrivateChecked').on('click',function () {
+                    if (ckbox.is(':checked')) {
+                        $("#sharePosts").prop("disabled", false)
+                        $("#sharePosts").prop("required", true)
+                    } else {
+                        $("#sharePosts").prop("disabled", true);
+                        $("#sharePosts").prop("required", false);
+                        
+                    }
+                });
+            })
         </script>
     
 </head>

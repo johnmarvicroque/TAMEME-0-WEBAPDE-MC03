@@ -42,10 +42,11 @@ var tagSchema = mongoose.Schema({
 
 var Tag = mongoose.model("tag", tagSchema)
 
-module.createTag = function(tag){
+module.exports.createTag = function(tag){
     return new Promise(function(resolve, reject){
-        var t = new Tag(tag)
-        
+        var t = new Tag({
+            tag : tag
+        })
         t.save().then((newTag)=>{
             resolve(newTag)
         }, (err)=>{
@@ -54,7 +55,7 @@ module.createTag = function(tag){
     })
 }
 
-module.addPostInTag = function(tag, post){
+module.exports.addPostInTag = function(tag, post){
     return new Promise(function(resolve, reject){
         
         Tag.findOneAndUpdate({
@@ -84,7 +85,7 @@ module.deletePostInTag = function(tag, postId){
     })
 }
 
-module.editPostInTag = function(tag, post){
+exports.editPostInTag = function(tag, post){
     return new Promise(function(resolve, reject){
         
         Tag.findOneAndUpdate({
@@ -99,21 +100,21 @@ module.editPostInTag = function(tag, post){
     })
 }
 
-module.exports.getPostByTag = function(tag){
+exports.getPostByTag = function(tag){
     return new Promise(function(resolve, reject){
         
         Tag.findOne({
             tag : tag
         }).then((gotTag)=>{
             //TODO : filter out private posts in controller
-            resolve(gotTag.posts)
+            resolve(gotTag)
         }, (err)=>{
             reject(user)
         })
     })
 }
 
-module.exports.getTag = function(tag){
+exports.getTag = function(tag){
     return new Promise(function(resolve, reject){
         
         Tag.findOne({

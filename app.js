@@ -6,6 +6,7 @@ const session = require("express-session");
 const bodyparser = require("body-parser");
 const cookieparser = require("cookie-parser");
 const hbs = require("hbs");
+const path = require("path")
 
 
 /*******************  SETUP  **********************/

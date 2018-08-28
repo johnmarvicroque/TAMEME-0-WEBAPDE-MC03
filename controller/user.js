@@ -1,11 +1,12 @@
 const express = require("express")
 const router = express.Router()
 const User = require("../models/user")
-//const Post = require("../models/post")
-//const Tags = require("../models/tags")
+const Post = require("../models/post")
+const Tags = require("../models/tags")
 const bodyparser = require("body-parser")
 const crypto = require("crypto")
 const session = require("express-session");
+const path = require("path")
 
 const app = express()
 
@@ -14,18 +15,17 @@ const urlencoder = bodyparser.urlencoded({
 })
 
 router.use(urlencoder)
-
-router.use(session({
-    
-    secret : "supersecretsecret",
-    name : "super secret",
-    resave : true,
-    saveUninitialized : true,
-    cookie : {
-        maxAge: 1000*60*60*24*7*3
-    }
-}));
-
+var currentLoggedIn
+//router.use(session({
+//    
+//    secret : "supersecretsecret",
+//    name : "super secret",
+//    resave : true,
+//    saveUninitialized : true,
+//    cookie : {
+//        maxAge: 1000*60*60*24*7*3
+//    }
+//}));
 
 router.post("/login", (req,res)=>{
     console.log("POST /home")
@@ -35,36 +35,44 @@ router.post("/login", (req,res)=>{
         password: req.body.loginPassword
     }
     
-       
+    var renderPosts = []
     
     User.authenticate(userLogIn).then((newUser) =>{
-        console.log("USER FOUND")
-        console.log(newUser)
-        
-                
+        console.log("asdasdas")
         if(newUser){
-           req.session.username = newUser.username
-            
-            res.render("home.hbs", {
-                profileName: newUser.username
+            req.session.username = newUser.username
+                
+                Post.getAllPost().then((posts)=>{
+                posts.forEach(function(post, index, postsArray){
+                    if(post.privacy == false){
+                        renderPosts.push(post)
+                        
+                    }else{
+                        post.shared.forEach(function(sharedUser, index, sharedArray){
+                            if(sharedUser == newUser.username){
+                                renderPosts.push(post)
+                            }
+                        })
+                    }
+                    
+                })
+                var posts = renderPosts
+                res.render("home.hbs", {
+                    posts,
+                    user : newUser
+                })
+            },(err)=>{
+                console.log("Error: /login")
             })
-//           Post.getAll().then((posts)=>{
-//             res.render("userhome.hbs", {
-//                 posts
-//             })
-//          })
         }else{
-            res.render("home.hbs", {  
-                error: "Wrong credentials. Try again."
-            })
+            res.render("index.hbs")
         }         
     }, (error) =>{
         console.log("ERROR")
         res.render("index.hbs")
     })
     
-    
-    
+      
 //    User.authenticate(userLogIn).then((user)=>{
 //        
 //        console.log(user.username)
@@ -119,8 +127,35 @@ router.post("/register",(req, res)=>{
                     description
                     
                 }
+                
+                var renderPosts = []
+                
                 User.createUser(u).then((newUser)=>{
-                    res.redirect("../")
+                    req.session.username = u.username
+                    currentLoggedIn = newUser
+                    
+                    Post.getAllPost().then((posts)=>{
+                        posts.forEach(function(post, index, postsArray){
+                            if(post.privacy == false){
+                                renderPosts.push(post)
+                                
+                            }else{
+                                post.shared.forEach(function(sharedUser, index, sharedArray){
+                                    if(sharedUser == newUser.username){
+                                        renderPosts.push(post)
+                                    }
+                                })    
+                            }
+                            
+                        })
+                        var posts = renderPosts
+                        res.render("home.hbs", {
+                            posts,
+                            user: newUser
+                        })
+                    },(err)=>{
+                        console.log("Error: /login")
+                    })
                 }, (error)=>{
                     res.send("Something went wrong!")
                 })
@@ -130,7 +165,6 @@ router.post("/register",(req, res)=>{
         })   
     }
 })
-
 
 router.get("/logout", (req, res) => {
     console.log("GET /logout")
@@ -143,7 +177,13 @@ router.get("/logout", (req, res) => {
         }
     })
     
-    res.render("index.hbs")
+    Post.getPublicPost().then((posts)=>{
+        res.render("index.hbs", {
+            posts
+        })  
+    },(err)=>{
+        console.log("Error: /login")
+    })
 })
 
 module.exports = router

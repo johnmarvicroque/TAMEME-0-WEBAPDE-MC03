@@ -1,135 +1,199 @@
 <html>
-
-<head>
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <script src="../js/bootstrap.min.js"></script>
-    <link rel = "stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     
-    <script>
-    $(document).ready( function() {
-    	$(document).on('change', '.btn-file :file', function() {
-		var input = $(this),
-			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-		input.trigger('fileselect', [label]);
-		});
-
-		$('.btn-file :file').on('fileselect', function(event, label) {
-		    
-		    var input = $(this).parents('.input-group').find(':text'),
-		        log = label;
-		    
-		    if( input.length ) {
-		        input.val(log);
-		    } else {
-		        if( log ) alert(log);
-		    }
-	    
-		});
-		function readURL(input) {
-		    if (input.files && input.files[0]) {
-		        var reader = new FileReader();
-		        
-		        reader.onload = function (e) {
-		            $('#img-upload').attr('src', e.target.result);
-		        }
-		        
-		        reader.readAsDataURL(input.files[0]);
-		    }
-		}
-
-		$("#imgInp").change(function(){
-		    readURL(this);
-		}); 	
-	});
+    <head>
+        <script src="../js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <script src="../js/bootstrap.min.js"></script>
+        <link rel = "stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+        
+        <script>
+            $(document).ready( function() {
+                $(document).on('change', '.btn-file :file', function() {
+                    var input = $(this),
+                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                    input.trigger('fileselect', [label]);
+                });
+                
+                $('.btn-file :file').on('fileselect', function(event, label) {
+                    
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = label;
+                    
+                    if( input.length ) {
+                        input.val(log);
+                    } else {
+                        if( log ) alert(log);
+                    }
+                    
+                });
+                function readURL(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        
+                        reader.onload = function (e) {
+                            $('#img-upload').attr('src', e.target.result);
+                        }
+                        
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+                
+                $("#imgInp").change(function(){
+                    readURL(this);
+                }); 	
+            });
+            $(document).ready(function () {
+                var ckbox = $('#isPrivateChecked');
+                
+                $('#isPrivateChecked').on('click',function () {
+                    if (ckbox.is(':checked')) {
+                        $("#sharePosts").prop("disabled", false)
+                        $("#sharePosts").prop("required", true)
+                    } else {
+                        $("#sharePosts").prop("disabled", true);
+                        $("#sharePosts").prop("required", false);
+                        
+                    }
+                });
+            })
+        </script>
+    </head>
     
-    </script>
-</head>
-
-<body>
-<!--NAV BAR-->
+    <body>
+        <!--NAV BAR-->
 <!--
 /*
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">TAMEME-0</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="form-inline my-2 my-lg-0 ml-auto">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<a class="navbar-brand" href="#">TAMEME-0</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
 
-            <ul class="navbar-nav ml-auto" style = "cursor : pointer">
-                <li class = "nav-item">
-                    <form method="post" action="add">
-                        <div class ="container col-md-6" style="text-align: center; padding-top: 5px; padding-right: 34px;">
-                            <input type = "button" value ="Add Post" id="addButton" data-toggle="modal" data-target="#addPost">
-                        </div>
-                    </form>
-                </li>
-                <li class="nav-item">
-                     <form action = "profile" method = "get">
-                        <input type = "submit" value = "Profile" id="profileButton">
-                    </form> 
-                   <a class="text-light nav-link" id="welcome" style = "cursor: pointer;">{{profileName}}</a> //comment this out
-                </li>
-                <li class="nav-item">
-                    <form method = "post" action = "logout" style = "padding-top: 5px;">
-                        <input type = "submit" value ="LogOut" id="logoutButton">
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<form class="form-inline my-2 my-lg-0 ml-auto">
+<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+<ul class="navbar-nav ml-auto" style = "cursor : pointer">
+<li class = "nav-item">
+<form method="post" action="add">
+<div class ="container col-md-6" style="text-align: center; padding-top: 5px; padding-right: 34px;">
+<input type = "button" value ="Add Post" id="addButton" data-toggle="modal" data-target="#addPost">
+</div>
+</form>
+</li>
+<li class="nav-item">
+<form action = "profile" method = "get">
+<input type = "submit" value = "Profile" id="profileButton">
+</form> 
+<a class="text-light nav-link" id="welcome" style = "cursor: pointer;">{{profileName}}</a> //comment this out
+</li>
+<li class="nav-item">
+<form method = "post" action = "logout" style = "padding-top: 5px;">
+<input type = "submit" value ="LogOut" id="logoutButton">
+</form>
+</li>
+</ul>
+</div>
+</nav>
 */
 -->
-    
+        
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="home.hbs">TAMEME-0</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class = "fa fa-search"></i></button>
-            </form>
-              
-              
-              <a class="tagLine text-light mx-auto d-block" href="login"><i class = "fab fa-accessible-icon"></i>Sit down and meme.</a>
+            <a class="navbar-brand" href="#">TAMEME-0</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             
-            <ul class="navbar-nav ml-auto">
-                <div class="uploadButton">
-                    <button class="btn btn-outline-success" type="submit" data-toggle="modal"  data-target="#uploadPost">Upload</button>
-                </div>
-                <!-- PICTURE WITH LOG-IN  -->
-                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown">
-                        <img src="../Photos/Fun_To_The_World_Jane2.jpg" class="img-circle special-img"> Profile <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="./../profile/userProfile"><i class="fas fa-address-card"></i> Account</a></li>
-                                <li class="divider"></li>
-                                <li><a href="../logout"><i class="fas fa-sign-out-alt"></i> Sign-out</a></li> 
-                            </ul>
-                </li>
-<!--
-                <li class="nav-item">
-                    <a class="text-light nav-link" id="logoutButton">Log out</a>
-                </li>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class = "fa fa-search"></i></button>
+                </form>
+                
+                
+                <a class="tagLine text-light mx-auto d-block" href="#"><i class = "fab fa-accessible-icon"></i>Sit down and meme.</a>
+                
+                <ul class="navbar-nav ml-auto">
+                    <div class="uploadButton">
+                        <button class="btn btn-outline-success" type="submit" data-toggle="modal"  data-target="#addPost">Upload</button>
+                    </div>
+                    <!-- PICTURE WITH LOG-IN  -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown">
+                            <img src="../Photos/Fun_To_The_World_Jane2.jpg" class="img-circle special-img"> {{user.username}} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../profile/userProfile"><i class="fas fa-address-card"></i> Account</a></li>
+                            <li class="divider"></li>
+                            <li><a href="../user/logout"><i class="fas fa-sign-out-alt"></i> Sign-out</a></li> 
+                        </ul>
+                    </li>
+                    
+ <!--
+<li class="nav-item">
+<a class="text-light nav-link" id="logoutButton">Log out</a>
+</li>
 -->
-            </ul>
-          </div>
+                </ul>
+            </div>
         </nav>
-<!--END OF NAV BAR-->
-    
-<!--BODY-->    
-    <form>
-     <div class ="container col-md-6">
+        <!--END OF NAV BAR-->
+        
+        <!----------------- EACH POST START-------------->
+        {{#each posts}}
+            <div class ="container col-md-6">
+
+                <div class="border row post col-md-12">
+                    <div class="titleContainer row col-md-12" data-toggle="modal" data-target="#a{{_id}}">
+                        <h2 class="text-left">{{title}}</h2>
+                    </div>
+                    <a class = "userTag" data-toggle="modal" data-target="#login" style="color: #09f;">User: {{user}}</a>
+                    <div id="meme1" class="row col-md-12 align-items-center memeContainer m-0" data-toggle="modal" data-target="#a{{_id}}">
+                        <img class="img-fluid rounded mx-auto d-block" id="meme" src="../post/photo/{{_id}}">
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+
+        <!--END OF BODY-->
+
+        <!--MODAL-->
+        {{#each posts}}
+            <div class="modal fade" id="a{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header row col-xs-12">
+                    <div class="modal-2nd-header">
+                    <button type="button" class="close mr-auto ml-1" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title text-left ml-2" id="exampleModalLabel">{{title}}</h5>
+
+                    </div> 
+                      <br>
+                      <a class = "userTag ml-2" data-toggle="modal" data-target="#login"  data-dismiss="modal" aria-label="Close" style="color: #09f;">User:{{user}}</a>
+
+                  </div>
+
+                   <img class="img-fluid rounded mx-auto d-block" src="../post/photo/{{_id}}">
+                    <br>
+                    <div class="text-dark ml-2">
+    <!--                    ADD HANDLEBARS FOR TAGS-->
+                        {{#each tags}}
+                            <a class="tag mr-5" style="color: #09f;">{{this}}</a>
+                        {{/each}}
+                    </div>
+                </div>
+              </div>
+            </div>
+        {{/each}}
+        <!----------------- EACH POST END-------------->
+        
+        <!--BODY-->    
+        <form>
+            <div class ="container col-md-6">
                 <div class="border row post col-md-12">
                     <div class="titleContainer row col-md-12" data-toggle="modal" data-target="#memeModal1">
                         <h2 class="text-left">After finding out that a freeloader got a better grade than you</h2>
@@ -141,213 +205,233 @@
                         <img class="img-fluid rounded mx-auto d-block" id="meme" src="../Photos/meme1.jpg">
                     </div>
 <!--
-                    <div class="text-dark row col-md-12">
-                        <a class="tag mr-5" style = "color: #09f; cursor: pointer;" href = "search.hbs" name = "tag">#studentlife</a><a class="tag mr-5" style = "color: #09f; cursor: pointer;" href = "search.hbs" name = "tag">#hayoung</a><a class="tag mr-5" style = "color: #09f; cursor: pointer;" href = "search.hbs"  name = "tag">#apink</a> 
-                    </div>
-                    <div class="text-dark row col-md-12" style = "position: flex-row;">
-                        <div class = "mr-4">
-                            <input type="button" class="btn btn-success" id="editButton" value = "Edit" data-toggle="modal" data-target="#editPost">
-                        </div>
-                        <form action = "deletePost" method="post">
-                        <div class = "mr-4">
-                            <input type="button" class="btn btn-danger" id="deleteButton" value = "Delete">
-                        </div>
-                        </form>
-                    </div>
+<div class="text-dark row col-md-12">
+<a class="tag mr-5" style = "color: #09f; cursor: pointer;" href = "search.hbs" name = "tag">#studentlife</a><a class="tag mr-5" style = "color: #09f; cursor: pointer;" href = "search.hbs" name = "tag">#hayoung</a><a class="tag mr-5" style = "color: #09f; cursor: pointer;" href = "search.hbs"  name = "tag">#apink</a> 
+</div>
+<div class="text-dark row col-md-12" style = "position: flex-row;">
+<div class = "mr-4">
+<input type="button" class="btn btn-success" id="editButton" value = "Edit" data-toggle="modal" data-target="#editPost">
+</div>
+<form action = "deletePost" method="post">
+<div class = "mr-4">
+<input type="button" class="btn btn-danger" id="deleteButton" value = "Delete">
+</div>
+</form>
+</div>
 -->
                 </div>            
-         </div>
-    </form>
-
-<!--END OF BODY-->
-    
-<!--MODAL-->
-   <div class="modal fade" id="memeModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header row col-xs-12">
-                <div class="modal-2nd-header">
-                <button type="button" class="close mr-auto ml-1" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-                <h5 class="modal-title text-left ml-2" id="exampleModalLabel">After finding out that a freeloader got a better grade than you</h5>
-
-                </div>  
-                  
-                  <a class = "userTag ml-2" href="profile" style="color: #09f;">janedoe_</a>
-                </div>
-
-               <img class="img-fluid rounded mx-auto d-block" src="../Photos/meme1.jpg">
-                <div class="text-dark ml-2">
-                    <a class="tag mr-5" style="color: #09f;">#studentlife</a><a class="tag mr-5" style="color: #09f;">#hayoung</a><a class="tag mr-5" style="color: #09f;">#apink</a> 
-                </div>
-                <div class="text-dark row justify-content-between ml-2 buttonContainer">
+            </div>
+        </form>
+        
+        <!--END OF BODY-->
+        
+        <!--MODAL-->
+        <div class="modal fade" id="memeModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header row col-xs-12">
+                        <div class="modal-2nd-header">
+                            <button type="button" class="close mr-auto ml-1" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h5 class="modal-title text-left ml-2" id="exampleModalLabel">After finding out that a freeloader got a better grade than you</h5>
+                            
+                        </div>  
+                        
+                        <a class = "userTag ml-2" href="profile" style="color: #09f;">janedoe_</a>
+                    </div>
+                    
+                    <img class="img-fluid rounded mx-auto d-block" src="../Photos/meme1.jpg">
+                    
+                    <div class="text-dark ml-2">
+                        <a class="tag mr-5" style="color: #09f;">#studentlife</a><a class="tag mr-5" style="color: #09f;">#hayoung</a><a class="tag mr-5" style="color: #09f;">#apink</a> 
+                    </div>
+                    <div class="text-dark row justify-content-between ml-2 buttonContainer">
                         <div class = "mr-4">
                             <input type="button" class="btn btn-success" id="editButton" value = "Edit" data-toggle="modal" data-target="#editPost" data-dismiss="modal" aria-label="Close">
                         </div>
                         <form action = "deletePost" method="post">
-                        <div class = "mr-4">
-                            <input type="button" class="btn btn-danger" id="deleteButton" value = "Delete">
-                        </div>
+                            <div class = "mr-4">
+                                <input type="button" class="btn btn-danger" id="deleteButton" value = "Delete">
+                            </div>
                         </form>
+                    </div>
                 </div>
             </div>
-          </div>
         </div>
-       
+        
 <!--
-      <div class="modal fade" id="addPost" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Post</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action = "addPost" method = "post">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Title:</label>
-                            <input input type="text" class="form-control" id="postTitle" name = "titlePost" required>
-                        </div>
-                        <input type="hidden" name = "userPost" value="{{profileName}}">
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Directory:</label>
-                            <input type="text" class="form-control" id="postDirectory" name = "directoryPost" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Tag:</label>
-                            <input type="text" class="form-control" id="postDirectory" name = "tagPost" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Share to:</label>
-                            <input type="text" class="form-control" id="postDirectory" name = "sharedPost" required>
-                        </div>
+<div class="modal fade" id="addPost" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="exampleModalLabel">Add Post</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<form action = "addPost" method = "post">
+<div class="form-group">
+<label for="recipient-name" class="col-form-label">Title:</label>
+<input input type="text" class="form-control" id="postTitle" name = "titlePost" required>
+</div>
+<input type="hidden" name = "userPost" value="{{profileName}}">
+<div class="form-group">
+<label for="message-text" class="col-form-label">Directory:</label>
+<input type="text" class="form-control" id="postDirectory" name = "directoryPost" required>
+</div>
 
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary" id="add" value = "Add">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="form-group">
+<label for="message-text" class="col-form-label">Tag:</label>
+<input type="text" class="form-control" id="postDirectory" name = "tagPost" required>
+</div>
+
+<div class="form-group">
+<label for="message-text" class="col-form-label">Share to:</label>
+<input type="text" class="form-control" id="postDirectory" name = "sharedPost" required>
+</div>
+
+<div class="modal-footer">
+<input type="submit" class="btn btn-primary" id="add" value = "Add">
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
 -->
-    
-    <div class="modal fade" id="editPost" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Post</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action = "editPost" method = "post">
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Title:</label>
-                            <input input type="text" class="form-control" id="postTitle" name = "titlePost" required>
-                        </div>
-                        <input type="hidden" name = "userPost" value="{{profileName}}">
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Directory:</label>
-                            <input type="text" class="form-control" id="postDirectory" name = "directoryPost" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Tag:</label>
-                            <input type="text" class="form-control" id="postDirectory" name = "tagPost" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Share to:</label>
-                            <input type="text" class="form-control" id="postDirectory" name = "sharedPost" required>
-                        </div>
-
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-success" id="edit" value = "Edit">
-                        </div>
-                    </form>
+        
+        <div class="modal fade" id="editPost" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action = "editPost" method = "post">
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Title:</label>
+                                <input input type="text" class="form-control" id="postTitle" name = "titlePost" required>
+                            </div>
+                            <input type="hidden" name = "userPost" value="{{user.username}}">
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Directory:</label>
+                                <input type="text" class="form-control" id="postDirectory" name = "directoryPost" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Tags:</label>
+                                <input type="text" class="form-control" id="postDirectory" name = "tagPost" required>
+                            </div>
+                            
+                            <div class></div>
+                            
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Share to:</label>
+                                <input type="text" class="form-control" id="postDirectory" name = "sharedPost" required>
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-success" id="edit" value = "Edit">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>    
-    
-    <div class="modal fade" id="uploadPost" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Upload Post</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                        <div class="modal-body">
-                            <form action = "../post/addPost" method = "post" enctype="multipart/form-data">
-                                <div class="row col-md-12">
-                                    <div class="containerUpload">
+        </div>    
+        
+        <div class="modal fade" id="addPost" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Upload Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action = "../post/createPost" method = "post" enctype="multipart/form-data">
+                            <div class="row col-xl-12 m-0">
+                                <div class="containerUpload">
                                     <div class="col-xs-12">
                                         <div class="form-group">
+                                            <input type="hidden" name = "userPost" value="{{user.username}}">
+                                            <div class="title-group">
+                                                <label for="recipient-name" class="col-form-label">Title:</label>
+                                                <input input type="text" class="form-control" id="postTitle" name = "titlePost" required>
+                                            </div>
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-light btn-file">
-                                                        Browse… <input type="file" id="imgInp">
+                                                        Browse… <input type="file" id="imgInp" name="img" required>
                                                     </span>
                                                 </span>
                                                 <input type="text" class="form-control" readonly>
                                             </div>
                                             <img id='img-upload'/>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Tag:</label>
+                                                <input type="text" class="form-control" id="postDirectory" name = "tagPost" required>
+                                            </div>
+
+                                            <div class="tickbox">
+                                                <input id = "isPrivateChecked" type="checkbox" name="isPrivate"> Private
+                                            </div>
+                                            
+                                            <div class="form-group shareTo">
+                                                <label for="message-text" class="col-form-label">Share to:</label>
+                                                <input type="text" class="form-control" id="sharePosts" name = "sharedPost" disabled>
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
                                 </div>
-
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-success" id="edit" value = "Upload">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-<!--END OF MODAL-->
-    
-    
-    
-    
-    
-<!--
-                {{#each eachPost}}
-                <div class="border row post col-md-12">
-                    <div class="titleContainer row col-md-12" data-toggle="modal" data-target="#memeModal1">
-                        <h2 class="text-left">{{title}}</h2>
-                    </div>
-                    <a class = "userTag" href = "genUserProfileJane.html">{{profileName}}</a>
-                    <div id="meme1" class="row col-md-12 align-items-center memeContainer border-bottom border-top m-0" data-toggle="modal" data-target="#memeModal1">
-                        <img class="img-fluid rounded mx-auto d-block" id="meme" src="{{directory}}">
-                    </div>
-                    <div class="text-dark row col-md-12">
-                        {{#each eachTag}}
-                            <p class="tag mr-5">{{tagName}}</p>
-                        {{/each}}
-                    </div>
-                    <div class="text-dark row col-md-12" style = "position: flex-row;">
-                        <div class = "mr-4">
-                            <input type="button" class="btn btn-primary" id="editButton" value = "Edit" data-toggle="modal" data-target="#editPost">
-                        </div>
-                        <form action = "deletePost" method="post">
-                        <div class = "mr-4">
-                            <input type="button" class="btn btn-primary" id="deleteButton" value = "Delete">
-                            <input type="hidden" name ="idPost" value = "{{postId}}">
-                        </div>
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-success" id="add" value = "Upload">
+                            </div>
                         </form>
                     </div>
                 </div>
-                {{/each}}
+            </div>
+        </div>
+        
+        <!--END OF MODAL-->
+        
+        
+        
+        
+        
+        <!--
+{{#each eachPost}}
+<div class="border row post col-md-12">
+<div class="titleContainer row col-md-12" data-toggle="modal" data-target="#memeModal1">
+<h2 class="text-left">{{title}}</h2>
+</div>
+<a class = "userTag" href = "genUserProfileJane.html">{{profileName}}</a>
+<div id="meme1" class="row col-md-12 align-items-center memeContainer border-bottom border-top m-0" data-toggle="modal" data-target="#memeModal1">
+<img class="img-fluid rounded mx-auto d-block" id="meme" src="{{directory}}">
+</div>
+<div class="text-dark row col-md-12">
+{{#each eachTag}}
+<p class="tag mr-5">{{tagName}}</p>
+{{/each}}
+</div>
+<div class="text-dark row col-md-12" style = "position: flex-row;">
+<div class = "mr-4">
+<input type="button" class="btn btn-primary" id="editButton" value = "Edit" data-toggle="modal" data-target="#editPost">
+</div>
+<form action = "deletePost" method="post">
+<div class = "mr-4">
+<input type="button" class="btn btn-primary" id="deleteButton" value = "Delete">
+<input type="hidden" name ="idPost" value = "{{postId}}">
+</div>
+</form>
+</div>
+</div>
+{{/each}}
 -->
-    

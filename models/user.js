@@ -64,7 +64,7 @@ userSchema.pre("save", function(next){
 
 var User = mongoose.model("user", userSchema)
 
-module.exports.createUser = function(user){
+exports.createUser = function(user){
     return new Promise(function (resolve, reject){
         var u = new User(user)
         
@@ -88,10 +88,6 @@ exports.checkHitUsername = function(uname){
 }
 
 exports.authenticate = function(user){
-    console.log("asdasdasdasdasd")
-    console.log(user)
-    
-    
     return new Promise(function(resolve, reject){
         User.findOne({
             username : user.username,
@@ -105,7 +101,7 @@ exports.authenticate = function(user){
     })
 }
 
-module.exports.editUser = function(id, updatedUser){
+exports.editUser = function(id, updatedUser){
     return new Promise(function(resolve, reject){
         
         User.findOneAndUpdate({
@@ -118,7 +114,7 @@ module.exports.editUser = function(id, updatedUser){
     })
 }
 
-module.exports.addPostInUser = function(post){
+exports.addPostInUser = function(post){
     return new Promise(function(resolve, reject){
         
         //if error, try 
@@ -137,7 +133,7 @@ module.exports.addPostInUser = function(post){
     })    
 }
 
-module.exports.deletePostInUser = function(uname, postId){
+exports.deletePostInUser = function(uname, postId){
     return new Promise(function(resolve, reject){
         
         User.findOneAndUpdate({
@@ -153,7 +149,7 @@ module.exports.deletePostInUser = function(uname, postId){
     })
 }
 
-module.exports.editPostInUser = function(user, post){
+exports.editPostInUser = function(user, post){
     return new Promise(function(resolve, reject){
         
         User.findOneAndUpdate({
@@ -168,7 +164,7 @@ module.exports.editPostInUser = function(user, post){
     })
 }
 
-module.exports.getPostByUser = function(postOwner){
+exports.getPostByUser = function(postOwner){
     return new Promise(function(resolve, reject){
         
         User.findOne({

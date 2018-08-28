@@ -7,10 +7,15 @@ var postSchema = mongoose.Schema({
         required : true
     },
     
-    directory: {
+    filename : {
         type : String,
         required : true
     }, 
+    
+    originalfilename : {
+        type : String,
+        required : true
+    },
     
     privacy : Boolean,
     
@@ -37,7 +42,6 @@ var Post = mongoose.model("post", postSchema)
 module.exports.createPost = function(post){
     return new Promise(function(resolve, reject){
         var p = new Post(post)
-
         p.save().then((newPost)=>{
             resolve(newPost)
         }, (err)=>{
@@ -47,7 +51,7 @@ module.exports.createPost = function(post){
 }
     
                    
-module.exports.deletePost = function(id){
+exports.deletePost = function(id){
     return new Promise(function(resolve, reject){
         
         Post.remove({
@@ -60,7 +64,7 @@ module.exports.deletePost = function(id){
     })
 }
 
-module.exports.editPost = function(id, updatedPost){
+exports.editPost = function(id, updatedPost){
     return new Promise(function(resolve, reject){
         
         Post.findOneAndUpdate({
@@ -73,7 +77,7 @@ module.exports.editPost = function(id, updatedPost){
     })
 }
 
-module.exports.getPublicPost = function(){
+exports.getPublicPost = function(){
     return new Promise(function(resolve, reject){
         
         Post.find({
@@ -86,12 +90,23 @@ module.exports.getPublicPost = function(){
     })
 }
 
-module.exports.getAllPost = function(){
+exports.getAllPost = function(){
     return new Promise(function(resolve, reject){
         
         Post.find().then((posts)=>{
             resolve(posts)
         }, (err)=>{
+            reject(err)
+        })
+    })
+}
+
+exports.getPost = function(id){
+    return new Promise(function(resolve, reject){
+        
+        Post.findOne(id).then((post)=>{
+            resolve(post)
+        },(err)=>{
             reject(err)
         })
     })
