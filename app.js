@@ -14,10 +14,9 @@ const app = express();
 const port = 3000;
 
 mongoose.Promise = global.Promise
-mongoose.connect("mongodb://localhost:27017/Tameme-0", {
+mongoose.connect("mongodb://marvic379:wew789033541@ds135852.mlab.com:35852/tameme-o",{
     useNewUrlParser: true
-});
-
+})
 app.set("view-engine", "hbs")
 app.use(express.static(__dirname + "/public"))
 
