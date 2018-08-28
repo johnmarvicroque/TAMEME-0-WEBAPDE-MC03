@@ -28,7 +28,7 @@ var currentLoggedIn
 //}));
 
 router.post("/login", (req,res)=>{
-    console.log("POST /home")
+    console.log("POST /login to home")
     
     let userLogIn = {
         username: req.body.loginUsername,
@@ -38,7 +38,6 @@ router.post("/login", (req,res)=>{
     var renderPosts = []
     
     User.authenticate(userLogIn).then((newUser) =>{
-        console.log("asdasdas")
         if(newUser){
             req.session.username = newUser.username
                 
@@ -71,32 +70,41 @@ router.post("/login", (req,res)=>{
         console.log("ERROR")
         res.render("index.hbs")
     })
-    
-      
-//    User.authenticate(userLogIn).then((user)=>{
-//        
-//        console.log(user.username)
-//        console.log(user.password)
-//        console.log(user.description)
-//        
-//        if(user.password == userLogIn.password){
-//            req.session.username = userLogin.username
-//            res.render("home.hbs", {
-//                profileName: user.username
-//                //TODO: filtered posts
-//            })
-//        }
-//    }, (err)=>{
-//        console.log("Error: /login")
-//    }, (error)=>{
-//        console.log("ERROR")
-//        res.render("home.hbs")
-//    })
-//    
-    
-    
 })
-
+    
+router.get("/login", (req, res)=>{
+    console.log("GET /login")
+    
+    
+    var currentUser = req.session.username
+    
+    User.checkHitUsername(currentUser).then((user)=>{
+        Post.getAllPost().then((posts)=>{
+            posts.forEach(function(post, index, postsArray){
+                if(post.privacy == false){
+                    renderPosts.push(post)
+                    
+                }else{
+                    post.shared.forEach(function(sharedUser, index, sharedArray){
+                        if(sharedUser == user.username){
+                            renderPosts.push(post)
+                        }
+                    })
+                }
+                
+            })
+            var posts = renderPosts
+            res.render("home.hbs", {
+                posts,
+                user : user
+            })
+        },(err)=>{
+            console.log("Error: /login")
+        })
+    }, (err)=>{
+        console.log("ERROR")
+    })
+})
 
 router.post("/register",(req, res)=>{
     console.log("POST /register")

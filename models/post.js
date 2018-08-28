@@ -67,9 +67,17 @@ exports.deletePost = function(id){
 exports.editPost = function(id, updatedPost){
     return new Promise(function(resolve, reject){
         
+//        Post.findOne({_id:id}).then((post)=>{
+//            
+//        }, (err)=>{
+//            console.log("error")
+//        })
+        
         Post.findOneAndUpdate({
             _id : id
-        }, updatedPost).then((post)=>{
+        }, {title : updatedPost.title,
+            tags : updatedPost.tags,
+            shared : updatedPost.shared}).then((post)=>{
             resolve(post)
         }, (err)=>{
             reject(err)
@@ -103,8 +111,7 @@ exports.getAllPost = function(){
 
 exports.getPost = function(id){
     return new Promise(function(resolve, reject){
-        
-        Post.findOne(id).then((post)=>{
+        Post.findOne({_id : id}).then((post)=>{
             resolve(post)
         },(err)=>{
             reject(err)

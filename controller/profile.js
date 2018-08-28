@@ -14,38 +14,6 @@ router.get("/userProfile", function(req,res){
     console.log("GET /")
     
     var uname = req.session.username
-//    var renderPosts = []
-    
-//    Post.getAllPost().then((posts)=>{
-//        posts.forEach(function(post, index, postsArray){
-//            if(post.privacy == false && post.user == post.user == uname){
-//                renderPosts.push(post)
-//            }
-//            else if(post.privacy == true && post.user == uname){
-//                renderPosts.push(post)
-//            }
-//            
-//            
-//            var posts = renderPosts
-//            User.checkHitUsername(uname).then((user)=>{
-//                if(user){
-//                    res.render("profile.hbs", {
-//                        posts,
-//                        user : user
-//                    })
-//                }
-//            }, (err)=>{
-//                console.log("ERROR: /profile")
-//            }, (err)=>{
-//                res.send("SOMETHING WENT WRONG")
-//            })
-//        })
-//    }, (err) => {
-//        console.log(err)
-//    })
-//})
-    
-   
     
     User.getPostByUser(uname).then((posts)=>{
         var renderPosts=[]
@@ -71,8 +39,40 @@ router.get("/userProfile", function(req,res){
     }, (err)=>{
         console.log("Error: /userProfile")
     })
+})
+
+router.get("/userProfile/:user", function(req, res){
+    var userClicked = req.params.user
+    var currentUser = req.session.username
+    console.log(userClicked)
     
-    console.log("wewewewew")
+    if(userClicked == currentUser){
+        User.getPostByUser(userClicked).then((posts)=>{
+            var renderPosts=[]
+            posts.forEach(function(post, index, postsArray){
+                renderPosts.push({_id : post.post._id,
+                                  title : post.post.title,
+                                  filename : post.post.filename,
+                                  originalfilename : post.post.originalfilename,
+                                  privacy : post.post.privacy,
+                                  tags : post.post.tags,
+                                  user : post.post.user,
+                                  shared : post.post.shared})
+            })
+            
+            User.checkHitUsername(currentUser).then((user)=>{
+                res.render("profile.hbs", {
+                    renderPosts,
+                    user: user
+                })
+            },(err)=>{
+                console.log("ERROR")
+            })
+        }, (err)=>{
+            console.log("Error: /userProfile")
+        })
+    }
+    
 })
 
 router.get("/visitProfile", function(req,res){

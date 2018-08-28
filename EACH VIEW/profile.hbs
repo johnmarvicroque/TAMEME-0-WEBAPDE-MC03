@@ -285,12 +285,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action = "addPost" method = "post">
+                        <form action = "../post/createPost" method = "post" enctype="multipart/form-data">
                             <div class="row col-xl-12 m-0">
                                 <div class="containerUpload">
                                     <div class="col-xs-12">
                                         <div class="form-group">
-                                            <input type="hidden" name = "userPost" value="{{profileName}}">
+                                            <input type="hidden" name = "userPost" value="{{user.username}}">
                                             <div class="title-group">
                                                 <label for="recipient-name" class="col-form-label">Title:</label>
                                                 <input input type="text" class="form-control" id="postTitle" name = "titlePost" required>
@@ -298,7 +298,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <span class="btn btn-light btn-file">
-                                                        Browse… <input type="file" id="imgInp" name="directoryPost" required>
+                                                        Browse… <input type="file" id="imgInp" name="img" required>
                                                     </span>
                                                 </span>
                                                 <input type="text" class="form-control" readonly>
@@ -308,10 +308,14 @@
                                                 <label for="message-text" class="col-form-label">Tag:</label>
                                                 <input type="text" class="form-control" id="postDirectory" name = "tagPost" required>
                                             </div>
-
-                                            <div class="form-group">
+                                            
+                                            <div class="tickbox">
+                                                <input id = "isPrivateChecked" type="checkbox" name="isPrivate"> Private
+                                            </div>
+                                            
+                                            <div class="form-group shareTo">
                                                 <label for="message-text" class="col-form-label">Share to:</label>
-                                                <input type="text" class="form-control" id="postDirectory" name = "sharedPost" required>
+                                                <input type="text" class="form-control" id="sharePosts" name = "sharedPost" disabled>
                                             </div>
                                         </div>
                                     </div>

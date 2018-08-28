@@ -67,11 +67,12 @@
         <div class="border row post col-md-12">
             <div class="titleContainer row col-md-12" data-toggle="modal" data-target="#a{{_id}}">
                 <h2 class="text-left">{{title}}</h2>
+                
             </div>
-            <br>
-            <a class = "userTag" data-toggle="modal" data-target="#login" style="color: #09f;">User: {{user}}</a>
+            
+            <a class = "userTagView" data-toggle="modal" data-target="#login" style="color: #09f;">{{user}}</a>
             <div id="meme1" class="row col-md-12 align-items-center memeContainer m-0" data-toggle="modal" data-target="#a{{_id}}">
-                <img class="img-fluid rounded mx-auto d-block" id="meme" src="post/photo/{{_id}}">
+                <img class="img-fluid rounded mx-auto d-block" id="meme" src="../post/photo/{{_id}}">
             </div>
         </div>
     </div>
@@ -84,15 +85,16 @@
     <div class="modal fade" id="a{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header row col-xs-12">
-                    <div class="modal-2nd-header">
+                <div class="modal-header row col-xs-12 mr-0 ml-0 pl-0 pr-0">
+                    <div class="modal-2nd-header col-lg-12">
                         <button type="button" class="close mr-auto ml-1" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <h5 class="modal-title text-left ml-2" id="exampleModalLabel">{{title}}</h5>
                         
+                        <a class = "userTag ml-2" data-toggle="modal" data-target="#login"  data-dismiss="modal" aria-label="Close" style="color: #09f;">{{user}}</a>
                     </div>    
-                    <a class = "userTag ml-2" data-toggle="modal" data-target="#login"  data-dismiss="modal" aria-label="Close" style="color: #09f;">User: {{user}}</a>
+
                     
                 </div>
                 
@@ -109,62 +111,9 @@
     </div>
     {{/each}}
     
-    <form>
-        <div class ="container col-md-6">
-            
-            <div class="border row post col-md-12">
-                <div class="titleContainer row col-md-12" data-toggle="modal" data-target="#memeModal1">
-                    <h2 class="text-left">After finding out that a freeloader got a better grade than you</h2>
-                </div>
-                <a class = "userTag" data-toggle="modal" data-target="#login" style="color: #09f;">janedoe_</a>
-                <div id="meme1" class="row col-md-12 align-items-center memeContainer m-0" data-toggle="modal" data-target="#memeModal1">
-                    <img class="img-fluid rounded mx-auto d-block" id="meme" src="Photos/meme1.jpg">
-                </div>
-                
-                <!--
-<div class="text-dark row col-md-12" style = "position: flex-row;">
-<div class = "mr-4">
-<input type="button" class="btn btn-primary" id="editButton" value = "Edit" data-toggle="modal" data-target="#editPost">
-</div>
-<form action = "deletePost" method="post">
-<div class = "mr-4">
-<input type="button" class="btn btn-primary" id="deleteButton" value = "Delete">
-</div>
-</form>
-</div>
--->
-            </div>            
-        </div>
-    </form>
-    
     <!--END OF BODY-->
     
     <!--MODAL-->
-    
-    <div class="modal fade" id="memeModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header row col-xs-12">
-                    <div class="modal-2nd-header">
-                        <button type="button" class="close mr-auto ml-1" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h5 class="modal-title text-left ml-2" id="exampleModalLabel">After finding out that a freeloader got a better grade than you</h5>
-                        
-                    </div>    
-                    
-                    <a class = "userTag ml-2" data-toggle="modal" data-target="#login"  data-dismiss="modal" aria-label="Close" style="color: #09f;">janedoe_</a>
-                    
-                </div>
-                
-                <img class="img-fluid rounded mx-auto d-block" src="Photos/meme1.jpg">
-                <div class="text-dark ml-2">
-                    <a class="tag mr-5" style="color: #09f;">#studentlife</a><a class="tag mr-5" style="color: #09f;">#hayoung</a><a class="tag mr-5" style="color: #09f;">#apink</a> 
-                </div>
-            </div>
-        </div>
-    </div>
-    
     
     <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -180,7 +129,7 @@
                     {{goodSignup}}
                 </div>
                 <div class="modal-body">
-                    <form action = "user/login" method = "post">
+                    <form action = "../user/login" method = "post">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Username:</label>
                             <input input type="text" class="form-control" id="usernameLoginForm" name = "loginUsername" required>
@@ -189,7 +138,9 @@
                             <label for="message-text" class="col-form-label">Password:</label>
                             <input type="password" class="form-control" id="passwordLoginForm" name = "loginPassword" required>
                         </div>
-                        
+                        <div class = "tickbox">
+                            <input type="checkbox" name="cookiesEnabled"> Remember me!
+                        </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success" id="loginButton">Login</button>
                         </div>

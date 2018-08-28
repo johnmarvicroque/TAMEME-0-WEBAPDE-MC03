@@ -15,6 +15,12 @@
             .userTag {
                 color: #09f;
                 cursor: pointer;
+                padding-left: 10px;
+            }
+
+            .userTagView {
+                color: #09f;
+                cursor: pointer;
             }
             
             .special-img {
@@ -53,8 +59,8 @@
                 cursor: pointer;
             }
 
-            .closeButton {
-                padding-left: 4px;
+            .close {
+                display: inline-block; 
             }
 
             .fa-user {

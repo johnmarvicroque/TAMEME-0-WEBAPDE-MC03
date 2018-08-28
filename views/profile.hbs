@@ -1,10 +1,10 @@
 <html>
     
     <head>
-        <script src="../js/jquery-3.3.1.min.js"></script>
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <script src="../js/bootstrap.min.js"></script>
-        <link rel = "stylesheet" href="../css/style.css">
+        <script src="../../js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+        <script src="../../js/bootstrap.min.js"></script>
+        <link rel = "stylesheet" href="../../css/style.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
         
         <script>
@@ -57,29 +57,6 @@
                     }
                 });
             })
-            
-//            $(document).ready(function(){
-//                $("input.delete").click(function(){
-//                    //detect if user clicks on button.delete
-//                    //get attr data-id from the click button
-//                    var id= $(this).attr("data-id")
-//                    //place data id into input#deleteid
-//                    $("input#deleteid").val(id)
-//                    //submit form#deleteform
-//                    $("form#deleteform").submit()
-//                })
-//                
-//                $("button.edit").click(function(){
-//                    //detect if user clicks on button.view
-//                    //get attr data-id from the click button
-//                    var id= $(this).attr("data-id")
-//                    //place data id into input#viewid
-//                    $("input#viewid").val(id)
-//                    //submit form#viewform
-//                    $("form#viewform").submit()
-//                })
-//            })
-            
         </script>
         
     </head>
@@ -125,8 +102,8 @@
 */
 -->
         
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="user/login">TAMEME-0</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            <a class="navbar-brand" href="../../user/login">TAMEME-0</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -138,7 +115,7 @@
                 </form>
                 
                 
-                <a class="tagLine text-light mx-auto d-block" href="login"><i class = "fab fa-accessible-icon"></i>Sit down and meme.</a>
+                <a class="tagLine text-light mx-auto d-block" href="../../user/login"><i class = "fab fa-accessible-icon"></i>Sit down and meme.</a>
                 
                 <ul class="navbar-nav ml-auto">
                     <div class="uploadButton">
@@ -147,11 +124,11 @@
                     <!-- PICTURE WITH LOG-IN  -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown">
-                            <img src="../Photos/Fun_To_The_World_Jane2.jpg" class="img-circle special-img"> {{user.username}} <b class="caret"></b></a>
+                            <img src="../../Photos/Fun_To_The_World_Jane2.jpg" class="img-circle special-img"> {{user.username}} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#"><i class="fa fa-cog"></i> Account</a></li>
                             <li class="divider"></li>
-                            <li><a href="../user/logout"><i class="fas fa-sign-out-alt"></i> Sign-out</a></li> 
+                            <li><a href="../../user/logout"><i class="fas fa-sign-out-alt"></i> Sign-out</a></li> 
                         </ul>
                     </li>
                     <!--
@@ -169,7 +146,7 @@
             <div class="container1 col-lg-6">
                 <div class="profile">
                     <div class="profile-image">
-                        <img class = "profilePic" src="../Photos/Fun_To_The_World_Jane2.jpg" alt="">
+                        <img class = "profilePic" src="../../Photos/Fun_To_The_World_Jane2.jpg" alt="">
                     </div>
                     
                     <div class="profile-user-settings">
@@ -192,9 +169,9 @@
                 <div class="titleContainer row col-md-12" data-toggle="modal" data-target="#a{{_id}}">
                     <h2 class="text-left">{{title}}</h2>
                 </div>
-                <a class = "userTag" data-toggle="modal" data-target="#login" style="color: #09f;">{{user}}</a>
+                <a href = "../../user/login" class = "userTagView">{{user}}</a>
                 <div id="meme1" class="row col-md-12 align-items-center memeContainer m-0" data-toggle="modal" data-target="#a{{_id}}">
-                    <img class="img-fluid rounded mx-auto d-block" id="meme" src="post/photo/{{_id}}">
+                    <img class="img-fluid rounded mx-auto d-block" id="meme" src="../post/photo/{{_id}}">
                 </div>
             </div>
         </div>
@@ -205,20 +182,20 @@
         <div class="modal fade" id="a{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header row col-xs-12">
-                        <div class="modal-2nd-header">
+                    <div class="modal-header row col-xs-12 mr-0 ml-0 pl-0 pr-0">
+                        <div class="modal-2nd-header col-lg-12">
                             <button type="button" class="close mr-auto ml-1" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <h5 class="modal-title text-left ml-2" id="exampleModalLabel">{{title}}</h5>
-                            
+                            <a href = "../../user/login">{{user}}</a>
                         </div>    
                         
-                        <a class = "userTag ml-2" data-toggle="modal" data-target="#login"  data-dismiss="modal" aria-label="Close" style="color: #09f;">User: {{user}}</a>
+                        
                         
                     </div>
                     
-                    <img class="img-fluid rounded mx-auto d-block" src="post/photo/{{_id}}">
+                    <img class="img-fluid rounded mx-auto d-block" src="../post/photo/{{_id}}">
                     <br>
                     <div class="text-dark ml-2">
                         <!--                    ADD HANDLEBARS FOR TAGS-->
@@ -230,10 +207,10 @@
                         <div class = "mr-4">
                             <input type="button" class="btn btn-success" id="editButton" value = "Edit" data-toggle="modal" data-target="#b{{_id}}" data-dismiss="modal" aria-label="Close">
                         </div>
-                        <form action = "../post/deletePost" method="post" id="deleteform">
-                            <input type="hidden" name="deleteID" value="{{_id}}">
+                        <form action = "../../post/deletePost" method="post">
+                            <input type="hidden" name = "deleteID" value="{{_id}}">
                             <div class = "mr-4">
-                                <input type="submit" class="delete btn btn-danger" id="deleteButton" value = "Delete">
+                                <input type="submit" class="btn btn-danger" id="deleteButton" value = "Delete">
                             </div>
                         </form>
                     </div>
@@ -251,18 +228,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action = "editPost" method = "post">
+                        <form action = "../../post/editPost" method = "post">
+                            <input type="hidden" name = "editID" value="{{_id}}">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Title:</label>
-                                <input input type="text" class="form-control" id="postTitle" name = "titlePost" required>
-                            </div>
-                            <input type="hidden" name = "userPost" value="{{user.username}}">
-                            <input type="hidden" name="editID" value="{{_id}}">
-                            <div class="form-group">
-                                <label for="message-text" class="col-form-label">Directory:</label>
-                                <input type="text" class="form-control" id="postDirectory" name = "directoryPost" required>
-                            </div>
-                            
+                                <input input type="text" class="form-control" id="postTitle" name = "postTitle" required>
+                            </div>                            
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Tag:</label>
                                 <input type="text" class="form-control" id="postDirectory" name = "tagPost" required>
@@ -274,7 +245,7 @@
                             </div>
                             
                             <div class="modal-footer">
-                                <input type="submit" class="edit btn btn-success" id="edit" value ="Edit">
+                                <input type="submit" class="btn btn-success" id="edit" value = "Edit">
                             </div>
                         </form>
                     </div>
@@ -283,12 +254,7 @@
         </div>   
         {{/each}}
         <!----------------- EACH POST END-------------->
-
-        
-        <!--END OF BODY-->
-        
-        <!--MODAL-->
-        
+        <!--END OF BODY-->   
         <div class="modal fade" id="addPost" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -299,12 +265,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action = "/post" method = "post">
+                        <form action = "addPost" method = "post">
                             <div class="row col-xl-12 m-0">
                                 <div class="containerUpload">
                                     <div class="col-xs-12">
                                         <div class="form-group">
-                                            <input type="hidden" name = "userPost" value="{{user.username}}">
+                                            <input type="hidden" name = "userPost" value="{{profileName}}">
                                             <div class="title-group">
                                                 <label for="recipient-name" class="col-form-label">Title:</label>
                                                 <input input type="text" class="form-control" id="postTitle" name = "titlePost" required>
@@ -340,39 +306,4 @@
                 </div>
             </div>
         </div>
-        
         <!--END OF MODAL-->
-        
-        
-        
-        
-        
-        <!--
-{{#each eachPost}}
-<div class="border row post col-md-12">
-<div class="titleContainer row col-md-12" data-toggle="modal" data-target="#memeModal1">
-<h2 class="text-left">{{title}}</h2>
-</div>
-<a class = "userTag" href = "genUserProfileJane.html">{{profileName}}</a>
-<div id="meme1" class="row col-md-12 align-items-center memeContainer border-bottom border-top m-0" data-toggle="modal" data-target="#memeModal1">
-<img class="img-fluid rounded mx-auto d-block" id="meme" src="{{directory}}">
-</div>
-<div class="text-dark row col-md-12">
-{{#each eachTag}}
-<p class="tag mr-5">{{tagName}}</p>
-{{/each}}
-</div>
-<div class="text-dark row col-md-12" style = "position: flex-row;">
-<div class = "mr-4">
-<input type="button" class="btn btn-primary" id="editButton" value = "Edit" data-toggle="modal" data-target="#editPost">
-</div>
-<form action = "deletePost" method="post">
-<div class = "mr-4">
-<input type="button" class="btn btn-primary" id="deleteButton" value = "Delete">
-<input type="hidden" name ="idPost" value = "{{postId}}">
-</div>
-</form>
-</div>
-</div>
-{{/each}}
--->
