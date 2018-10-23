@@ -11,7 +11,7 @@ const path = require("path")
 const app = express()
 
 const urlencoder = bodyparser.urlencoded({
-  extended : false
+    extended : false
 })
 
 router.use(urlencoder)
@@ -40,8 +40,8 @@ router.post("/login", (req,res)=>{
     User.authenticate(userLogIn).then((newUser) =>{
         if(newUser){
             req.session.username = newUser.username
-                
-                Post.getAllPost().then((posts)=>{
+            
+            Post.getAllPost().then((posts)=>{
                 posts.forEach(function(post, index, postsArray){
                     if(post.privacy == false){
                         renderPosts.push(post)
@@ -64,19 +64,36 @@ router.post("/login", (req,res)=>{
                 console.log("Error: /login")
             })
         }else{
-            res.render("index.hbs")
+            Post.getPublicPost().then((posts)=>{
+                res.render("index.hbs", {
+                    posts,
+                    errorLogin: "Username or Password is incorrect !!!",
+                    openloginModal: "Something Went Wrong"
+                })
+            },(err)=>{
+                console.log("Error: /login")
+            })            
         }         
     }, (error) =>{
-        console.log("ERROR")
-        res.render("index.hbs")
+        Post.getPublicPost().then((posts)=>{
+            res.render("index.hbs", {
+                posts,
+                errorLogin: "Username or Password is incorrect !!!",
+                openloginModal: "Something Went Wrong"
+            })
+        },(err)=>{
+            console.log("Error: /login")
+        })            
     })
 })
-    
+
 router.get("/login", (req, res)=>{
     console.log("GET /login")
     
     
     var currentUser = req.session.username
+    var renderPosts = []
+    
     
     User.checkHitUsername(currentUser).then((user)=>{
         Post.getAllPost().then((posts)=>{
@@ -112,20 +129,31 @@ router.post("/register",(req, res)=>{
     var username = req.body.signupUsername
     var password = req.body.signupPassword
     var description = req.body.signupDescription
-
-    if(password < 6){
-        res.render("index.hbs", {
-            errorSignup: "Password must be at least 6 characters",
-            opensignupModal: "Something Went Wrong"
+    
+    if(password.length < 6){
+        
+        Post.getPublicPost().then((posts)=>{
+            res.render("index.hbs", {
+                posts,
+                errorSignup: "Password must be at least 6 characters",
+                opensignupModal: "Something Went Wrong"
+            })
+        },(err)=>{
+            console.log("Error: /login")
         })
     }
     
     else{
         User.checkHitUsername(username).then((user)=>{
             if(user){
-                res.render("index.hbs", {
-                    errorSignup: "Username is already taken!!!",
-                    opensignupModal: "Something Went Wrong"
+                Post.getPublicPost().then((posts)=>{
+                    res.render("index.hbs", {
+                        posts,
+                        errorSignup: "Username is already taken!!!",
+                        opensignupModal: "Something Went Wrong"
+                    })
+                },(err)=>{
+                    console.log("Error: /login")
                 })
             }
             else{

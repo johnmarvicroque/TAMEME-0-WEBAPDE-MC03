@@ -26,7 +26,7 @@ const upload = multer({
 
 router.use(urlencoder)
 
-router.post("/createPost", upload.single("img"), (req,res)=>{
+router.post("/createHomePost", upload.single("img"), (req,res)=>{
     console.log("POST /post/createPost")
     
     var currentUser = req.session.username
@@ -144,7 +144,178 @@ router.post("/createPost", upload.single("img"), (req,res)=>{
             console.log("Error: /createPost")
         })
         
-        res.render("home.hbs")
+        User.checkHitUsername(currentUser).then((user)=>{
+            Post.getAllPost().then((posts)=>{
+                posts.forEach(function(post, index, postsArray){
+                    if(post.privacy == false){
+                        renderPosts.push(post)
+                        
+                    }else{
+                        post.shared.forEach(function(sharedUser, index, sharedArray){
+                            if(sharedUser == user.username){
+                                renderPosts.push(post)
+                            }
+                        })
+                    }
+                    
+                })
+                var posts = renderPosts
+                res.render("home.hbs", {
+                    posts,
+                    user : user
+                })
+            },(err)=>{
+                console.log("Error: /login")
+            })
+        }, (err)=>{
+            console.log("ERROR")
+        })
+        
+    }, (err)=>{
+        console.log("Error: /createPost")
+    })
+})
+
+router.post("/createProfilePost", upload.single("img"), (req,res)=>{
+    console.log("POST /post/createPost")
+    
+    var currentUser = req.session.username
+    
+    var user = req.body.userPost
+    var parsedShared
+    var parsedTag = req.body.tagPost.split(' ')
+    var isChecked = req.body.isPrivate
+    var privacy
+    
+    var renderPosts = []
+    
+    if(isChecked == "on"){
+        privacy = true
+        parsedShared = req.body.sharedPost.split(' ')
+    }else{
+        privacy = false
+        //parsedShared = []
+    }
+    
+    
+    var p = {
+        title : req.body.titlePost,
+        filename : req.file.filename,
+        originalfilename : req.file.originalname,
+        privacy : privacy,
+        tags : parsedTag,
+        user : user,
+        shared : parsedShared
+    }
+    
+    Post.createPost(p).then((createdPost)=>{
+        console.log(createdPost)
+        
+        User.addPostInUser(createdPost).then((updatedUser)=>{
+            parsedTag.forEach(function(value, index, tagArray){
+                
+                Tag.getTag(value).then((tag)=>{
+                    if(tag){
+                        Tag.addPostInTag(tag.tag, createdPost).then((updatedTag)=>{
+                            User.getPostByUser(currentUser).then((posts)=>{
+                                var renderPosts=[]
+                                posts.forEach(function(post, index, postsArray){
+                                    renderPosts.push({_id : post.post._id,
+                                                      title : post.post.title,
+                                                      filename : post.post.filename,
+                                                      originalfilename : post.post.originalfilename,
+                                                      privacy : post.post.privacy,
+                                                      tags : post.post.tags,
+                                                      user : post.post.user,
+                                                      shared : post.post.shared})
+                                })
+                                
+                                User.checkHitUsername(currentUser).then((user)=>{
+                                    res.render("profile.hbs", {
+                                        renderPosts,
+                                        user: user,
+                                        currentUser: currentUser
+                                    })
+                                },(err)=>{
+                                    console.log("ERROR")
+                                })
+                            }, (err)=>{
+                                console.log("Error: /userProfile")
+                            })
+                        }, (err)=>{
+                            console.log("Error: /createPost")
+                        })
+                    }else{
+                        Tag.createTag(value).then((createdTag)=>{
+                            console.log(createdTag)
+                            Tag.addPostInTag(createdTag.tag, createdTag).then((updatedTag)=>{
+                                User.getPostByUser(currentUser).then((posts)=>{
+                                    var renderPosts=[]
+                                    posts.forEach(function(post, index, postsArray){
+                                        renderPosts.push({_id : post.post._id,
+                                                          title : post.post.title,
+                                                          filename : post.post.filename,
+                                                          originalfilename : post.post.originalfilename,
+                                                          privacy : post.post.privacy,
+                                                          tags : post.post.tags,
+                                                          user : post.post.user,
+                                                          shared : post.post.shared})
+                                    })
+                                    
+                                    User.checkHitUsername(currentUser).then((user)=>{
+                                        res.render("profile.hbs", {
+                                            renderPosts,
+                                            user: user,
+                                            currentUser: currentUser
+                                        })
+                                    },(err)=>{
+                                        console.log("ERROR")
+                                    })
+                                }, (err)=>{
+                                    console.log("Error: /userProfile")
+                                })
+                                
+                            }, (err)=>{
+                                console.log("Error: /createPost")
+                            })
+                        },(err)=>{
+                            console.log("Error: /createPost")
+                        })
+                    }
+                }, (err)=>{
+                    console.log("Error: /createPost")
+                })
+            })
+            
+        },(err)=>{
+            console.log("Error: /createPost")
+        })
+        
+        User.getPostByUser(currentUser).then((posts)=>{
+            var renderPosts=[]
+            posts.forEach(function(post, index, postsArray){
+                renderPosts.push({_id : post.post._id,
+                                  title : post.post.title,
+                                  filename : post.post.filename,
+                                  originalfilename : post.post.originalfilename,
+                                  privacy : post.post.privacy,
+                                  tags : post.post.tags,
+                                  user : post.post.user,
+                                  shared : post.post.shared})
+            })
+            
+            User.checkHitUsername(currentUser).then((user)=>{
+                res.render("profile.hbs", {
+                    renderPosts,
+                    user: user,
+                    currentUser: currentUser
+                })
+            },(err)=>{
+                console.log("ERROR")
+            })
+        }, (err)=>{
+            console.log("Error: /userProfile")
+        })
         
     }, (err)=>{
         console.log("Error: /createPost")
@@ -162,7 +333,31 @@ router.post("/deletePost", (req,res)=>{
         
         Post.deletePost(id).then((deletedPost)=>{
             User.deletePostInUser(username, gotPost).then((updatedUser)=>{
-                console.log("sdgfagwa")
+                User.getPostByUser(username).then((posts)=>{
+                    var renderPosts=[]
+                    posts.forEach(function(post, index, postsArray){
+                        renderPosts.push({_id : post.post._id,
+                                          title : post.post.title,
+                                          filename : post.post.filename,
+                                          originalfilename : post.post.originalfilename,
+                                          privacy : post.post.privacy,
+                                          tags : post.post.tags,
+                                          user : post.post.user,
+                                          shared : post.post.shared})
+                    })
+                    
+                    User.checkHitUsername(username).then((user)=>{
+                        res.render("profile.hbs", {
+                            renderPosts,
+                            user: user,
+                            currentUser: username
+                        })
+                    },(err)=>{
+                        console.log("ERROR")
+                    })
+                }, (err)=>{
+                    console.log("Error: /userProfile")
+                })              
             }, (err)=>{
                 console.log("Error")
             })

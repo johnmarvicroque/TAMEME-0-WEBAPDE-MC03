@@ -111,10 +111,12 @@ exports.getAllPost = function(){
 
 exports.getPost = function(id){
     return new Promise(function(resolve, reject){
-        Post.findOne({_id : id}).then((post)=>{
+        Post.findOne({
+            _id: id
+        }).then((post) => {
             resolve(post)
-        },(err)=>{
-            reject(err)
+        }, (error) => {
+            reject(error)
         })
     })
 }

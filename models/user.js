@@ -133,27 +133,17 @@ exports.addPostInUser = function(post){
     })    
 }
 
-exports.deletePostInUser = function(uname, post){
+exports.deletePostInUser = function(username, post){
     return new Promise(function(resolve, reject){
-        
-        User.findOne({username : uname}).then((user)=>{
-            user.posts.remove({_id: post._id})
-            user.save(user)
-        }, (err)=>{
-            console.log("Error")
+        User.findOneAndUpdate({
+            username
+        }, {
+            "$pull": {"posts": post._id}
+        }).then((user) => {
+            resolve(user)
+        }, (error) => {
+            reject(error)
         })
-        
-
-//        User.findOneAndUpdate({
-//            username : uname
-//            
-//        }, {
-//            $pull : [{posts : { _id : post._id }}]
-//        }).then((user)=>{
-//            resolve(user)
-//        }, (err)=>{
-//            reject(err)
-//        })
     })
 }
 

@@ -13,9 +13,9 @@ router.use("/user", require("./user"))
 router.get("/userProfile", function(req,res){
     console.log("GET /")
     
-    var uname = req.session.username
+    var currentUser = req.session.username
     
-    User.getPostByUser(uname).then((posts)=>{
+    User.getPostByUser(currentUser).then((posts)=>{
         var renderPosts=[]
         posts.forEach(function(post, index, postsArray){
             renderPosts.push({_id : post.post._id,
@@ -28,10 +28,11 @@ router.get("/userProfile", function(req,res){
                               shared : post.post.shared})
         })
         
-        User.checkHitUsername(uname).then((user)=>{
+        User.checkHitUsername(currentUser).then((user)=>{
             res.render("profile.hbs", {
                 renderPosts,
-                user: user
+                user: user,
+                currentUser: currentUser
             })
         },(err)=>{
             console.log("ERROR")
@@ -46,33 +47,31 @@ router.get("/userProfile/:user", function(req, res){
     var currentUser = req.session.username
     console.log(userClicked)
     
-    if(userClicked == currentUser){
-        User.getPostByUser(userClicked).then((posts)=>{
-            var renderPosts=[]
-            posts.forEach(function(post, index, postsArray){
-                renderPosts.push({_id : post.post._id,
-                                  title : post.post.title,
-                                  filename : post.post.filename,
-                                  originalfilename : post.post.originalfilename,
-                                  privacy : post.post.privacy,
-                                  tags : post.post.tags,
-                                  user : post.post.user,
-                                  shared : post.post.shared})
-            })
-            
-            User.checkHitUsername(currentUser).then((user)=>{
-                res.render("profile.hbs", {
-                    renderPosts,
-                    user: user
-                })
-            },(err)=>{
-                console.log("ERROR")
-            })
-        }, (err)=>{
-            console.log("Error: /userProfile")
+    User.getPostByUser(userClicked).then((posts)=>{
+        var renderPosts=[]
+        posts.forEach(function(post, index, postsArray){
+            renderPosts.push({_id : post.post._id,
+                              title : post.post.title,
+                              filename : post.post.filename,
+                              originalfilename : post.post.originalfilename,
+                              privacy : post.post.privacy,
+                              tags : post.post.tags,
+                              user : post.post.user,
+                              shared : post.post.shared})
         })
-    }
-    
+        
+        User.checkHitUsername(userClicked).then((user)=>{
+            res.render("profile.hbs", {
+                renderPosts,
+                user: user,
+                currentUser: currentUser
+            })
+        },(err)=>{
+            console.log("ERROR")
+        })
+    }, (err)=>{
+        console.log("Error: /userProfile")
+    })
 })
 
 router.get("/visitProfile", function(req,res){
